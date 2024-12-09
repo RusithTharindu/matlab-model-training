@@ -8,6 +8,7 @@ Y = loadedData(:, end); % Labels
 summary(X);
 test10 = grpstats(X, Y); % Group-wise statistics
 
-X = normalize(X, 'zscore'); %Standardize the features using z-score normalization for better comparison and model performance.
+% Standardize the features using z-score normalization for better comparison and model performance.
+X = normalize(X, 'zscore'); 
 
 disp(test10);
