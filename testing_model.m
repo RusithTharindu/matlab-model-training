@@ -1,4 +1,4 @@
-data = load('U01_Acc_FreqD_FDay'); % Example for importing data
+data = load('dataset/U01_Acc_FreqD_FDay'); % Example for importing data
 loadedData = data.Acc_FD_Feat_Vec;
 X = loadedData(:, 1:end-1); % Features
 Y = loadedData(:, end); % Labels
