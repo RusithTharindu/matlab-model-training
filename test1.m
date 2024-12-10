@@ -21,6 +21,7 @@ end
 X = allData(:, 1:end-1); % Features
 Y = allLabels;           % Labels
 
+
 % Normalize features
 X = normalize(X, 'zscore');
 
