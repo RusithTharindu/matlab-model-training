@@ -3,9 +3,10 @@
 # Exit immediately if any command fails
 set -e
 
+# Check if the current directory is a git repository
 git branch
 
-# Input variables
+
 echo "Enter exists or new branch name:"
 read BRANCH_NAME
 
