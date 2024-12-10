@@ -12,3 +12,21 @@ test10 = grpstats(X, Y); % Group-wise statistics
 X = normalize(X, 'zscore'); 
 
 disp(test10);
+
+hiddenLayerSizes = [10, 10]; % Two hidden layers with 10 neurons each
+net = feedforwardnet(hiddenLayerSizes);
+
+% Split Data
+[trainInd, valInd, testInd] = dividerand(size(X, 1), 0.7, 0.15, 0.15);
+X_train = X(trainInd, :); Y_train = Y(trainInd, :);
+X_test = X(testInd, :); Y_test = Y(testInd, :);
+
+net.trainParam.epochs = 8000; % Maximum epochs
+net.trainParam.goal = 1e-4;  % Error goal
+net = train(net, X_train', Y_train');
+
+Y_pred = net(X_test');
+performance = perform(net, Y_test', Y_pred);
+disp(['Performance: ', num2str(performance)]);
+
+
