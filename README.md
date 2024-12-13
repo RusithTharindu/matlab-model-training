@@ -5,3 +5,6 @@
     # sh create_pr.sh
     # Enter exists or new branch name
     # Enter commit message
+
+
+I just changed the readme
