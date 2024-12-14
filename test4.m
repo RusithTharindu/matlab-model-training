@@ -10,8 +10,8 @@ for target_user = 1:10
 Training_ratio = 0.7;
 Testing_ratio = 0.3;
 
-target_user_testing_ratio = 0.5 ;
-target_user_traning_ratio = 0.5 ;
+target_user_testing_ratio = 0.7 ;
+target_user_traning_ratio = 0.7 ;
 imposter_user_testing_ratio = 0.3 ;
 imposter_user_traning_ratio = 0.3 ;
 
@@ -74,7 +74,7 @@ for u = 1:10
         % Testing data for the target user
         targetIndicesTesting = randperm(numTargetSamples);
         numTargetTest = round(target_user_testing_ratio * numTargetSamples);
-        
+
         targetTestData = userData(targetIndicesTesting(numTargetTest+1:end), :);
         targetTestLabels = ones(size(targetTestData, 1), 1);
 
