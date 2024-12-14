@@ -1,8 +1,9 @@
 % Define users
 users = ["U01", "U02", "U03", "U04", "U05", "U06", "U07", "U08", "U09", "U10"];
 target_user = "U01";
-allData = [];
-allLabels = [];
+
+allTrainData = [];
+allTrainLabels = [];
 allTestData = [];
 allTestLabels = [];
 
@@ -55,8 +56,8 @@ if users(u) == target_user
 
 
     % Append 70% to allData and allLabels
-    allData = [allData; targetTrainData];
-    allLabels = [allLabels; targetTrainLabels];
+    allTrainData = [allTrainData; targetTrainData];
+    allTrainLabels = [allTrainLabels; targetTrainLabels];
 
 
     % ..............................Testting ..............................
@@ -85,8 +86,8 @@ else
     imposterLabels = zeros(size(imposterData, 1), 1); % Label as 0 (imposter)
 
     % Append 30% to allData and allLabels
-    allData = [allData; imposterData];
-    allLabels = [allLabels; imposterLabels];
+    allTrainData = [allTrainData; imposterData];
+    allTrainLabels = [allTrainLabels; imposterLabels];
 
         % ..............................Testting ..............................
 
@@ -103,6 +104,22 @@ else
     allTestData = [allTestData; targetTestData];
     allTestLabels = [allTestLabels; targetTestLabels];
 end
+
+
+% Define inputs (features) and targets (labels)
+X = allTrainData;  % Training data
+Y = allTrainLabels;  % Training labels
+
+% Create a feedforward neural network
+hiddenLayerSize = 10; % Number of neurons in the hidden layer
+net = feedforwardnet(hiddenLayerSize);
+
+% Train the network
+[net, tr] = train(net, X', Y');  % Transpose X and Y for training
+
+% Display training results
+disp('Training complete!');
+view(net);  % Visualize the network architecture
 
 
 
