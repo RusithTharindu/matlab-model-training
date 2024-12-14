@@ -1,3 +1,6 @@
+clear
+clc
+
 % Define users
 users = ["U01", "U02", "U03", "U04", "U05", "U06", "U07", "U08", "U09", "U10"];
 target_user = "U01";
@@ -118,7 +121,7 @@ net = feedforwardnet(hiddenLayerSize);
 [net, tr] = train(net, X', Y');  % Transpose X and Y for training
 
 % Display training results
-disp('Training complete!');
+disp(['User ',char(users(u)),' Training complete!']);
 view(net);  % Visualize the network architecture
 
 
