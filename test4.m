@@ -7,13 +7,11 @@ users = ["U01", "U02", "U03", "U04", "U05", "U06", "U07", "U08", "U09", "U10"];
 
 for target_user = 1:10
 
-Training_ratio = 0.7;
-Testing_ratio = 0.3;
 
-target_user_testing_ratio = 0.5 ;
-target_user_traning_ratio = 0.5 ;
-imposter_user_testing_ratio = 0.3 ;
-imposter_user_traning_ratio = 0.3 ;
+target_user_testing_ratio = 0.8 ;
+target_user_traning_ratio = 0.8 ;
+imposter_user_testing_ratio = 0.2 ;
+imposter_user_traning_ratio = 0.2 ;
 
 
 allTrainData = [];
@@ -75,7 +73,7 @@ for u = 1:10
         targetIndicesTesting = randperm(numTargetSamples);
         numTargetTest = round(target_user_testing_ratio * numTargetSamples);
         
-        targetTestData = userData(targetIndicesTesting(numTargetTest+1:end), :);
+        targetTestData = userData(targetIndicesTesting(1:numTargetTest),:);
         targetTestLabels = ones(size(targetTestData, 1), 1);
 
         allTestData = [allTestData; targetTestData];
@@ -95,9 +93,9 @@ for u = 1:10
 
         %...................................................................................
         % Testing data for imposters
-
-        numImposterTest = round(imposter_user_testing_ratio * imposterTestLabels);
-        imposterTestData = userData(targetIndices(numImposterTest+1:end), :);
+        imposterIndicesTesting = randperm(numImposterSamples);
+        numImposterTest = round(imposter_user_testing_ratio * numImposterSamples);
+        imposterTestData = userData(imposterIndicesTesting(1: numImposterTest), :);
         imposterTestLabels = zeros(size(imposterTestData, 1), 1);
 
         allTestData = [allTestData; imposterTestData];
@@ -109,7 +107,7 @@ end
     Y = allTrainLabels;
 
     % Create a feedforward neural network
-    hiddenLayerSize = 4;
+    hiddenLayerSize = 10;
     net = feedforwardnet(hiddenLayerSize);
 
     % Train the network
@@ -136,4 +134,4 @@ end
     disp(' ');
     view(net);  % Visualize the network architecture
 
-end
+end;
