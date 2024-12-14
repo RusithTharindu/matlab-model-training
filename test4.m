@@ -7,11 +7,13 @@ users = ["U01", "U02", "U03", "U04", "U05", "U06", "U07", "U08", "U09", "U10"];
 
 for target_user = 1:10
 
+Training_ratio = 0.7;
+Testing_ratio = 0.3;
 
-target_user_testing_ratio = 0.8 ;
-target_user_traning_ratio = 0.8 ;
-imposter_user_testing_ratio = 0.2 ;
-imposter_user_traning_ratio = 0.2 ;
+target_user_testing_ratio = 0.5 ;
+target_user_traning_ratio = 0.5 ;
+imposter_user_testing_ratio = 0.3 ;
+imposter_user_traning_ratio = 0.3 ;
 
 
 allTrainData = [];
@@ -107,7 +109,7 @@ end
     Y = allTrainLabels;
 
     % Create a feedforward neural network
-    hiddenLayerSize = 10;
+    hiddenLayerSize = 2;
     net = feedforwardnet(hiddenLayerSize);
 
     % Train the network
