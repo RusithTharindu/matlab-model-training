@@ -1,9 +1,19 @@
-clear
+clear all;
 clc
 
 
 % Define users
 users = ["U01", "U02", "U03", "U04", "U05", "U06", "U07", "U08", "U09", "U10"];
+
+for target_user = 1:10
+
+Training_ratio = 0.7;
+Testing_ratio = 0.3;
+
+target_user_testing_ratio = 0.5 ;
+target_user_traning_ratio = 0.5 ;
+imposter_user_testing_ratio = 0.3 ;
+imposter_user_traning_ratio = 0.3 ;
 
 
 allTrainData = [];
@@ -11,7 +21,7 @@ allTrainLabels = [];
 allTestData = [];
 allTestLabels = [];
 
-for target_user = 1:10
+ %  clearvars -except users target_user; 
 
 % Loop through each user and train the neural network for each user
 for u = 1:10
@@ -46,10 +56,12 @@ for u = 1:10
     if u == target_user
         % Split 70% of the target user's data
         numTargetSamples = size(userData, 1);
+
         targetIndices = randperm(numTargetSamples); % Randomize indices
-        numTargetTrain = round(0.7 * numTargetSamples); % Calculate 70%
+        numTargetTrain = round(target_user_traning_ratio * numTargetSamples); % Calculate 70%
 
         % 70% of target user data as authentic
+       
         targetTrainData = userData(targetIndices(1:numTargetTrain), :);
         targetTrainLabels = ones(size(targetTrainData, 1), 1); % Label as 1 (authentic)
 
@@ -57,9 +69,13 @@ for u = 1:10
         allTrainData = [allTrainData; targetTrainData];
         allTrainLabels = [allTrainLabels; targetTrainLabels];
 
+        %........................................................................
+
         % Testing data for the target user
-        numTargetTest = round(0.3 * numTargetSamples);
-        targetTestData = userData(targetIndices(numTargetTrain+1:end), :);
+        targetIndicesTesting = randperm(numTargetSamples);
+        numTargetTest = round(target_user_testing_ratio * numTargetSamples);
+        
+        targetTestData = userData(targetIndicesTesting(numTargetTest+1:end), :);
         targetTestLabels = ones(size(targetTestData, 1), 1);
 
         allTestData = [allTestData; targetTestData];
@@ -68,7 +84,7 @@ for u = 1:10
         % Use 30% of the imposter data
         numImposterSamples = size(userData, 1);
         imposterIndices = randperm(numImposterSamples);
-        numImposterSelect = round(0.3 * numImposterSamples);
+        numImposterSelect = round(imposter_user_traning_ratio * numImposterSamples);
 
         % 30% of imposter user data as imposter
         imposterData = userData(imposterIndices(1:numImposterSelect), :);
@@ -77,8 +93,11 @@ for u = 1:10
         allTrainData = [allTrainData; imposterData];
         allTrainLabels = [allTrainLabels; imposterLabels];
 
+        %...................................................................................
         % Testing data for imposters
-        imposterTestData = userData(imposterIndices(numImposterSelect+1:end), :);
+
+        numImposterTest = round(imposter_user_testing_ratio * imposterTestLabels);
+        imposterTestData = userData(targetIndices(numImposterTest+1:end), :);
         imposterTestLabels = zeros(size(imposterTestData, 1), 1);
 
         allTestData = [allTestData; imposterTestData];
@@ -90,7 +109,7 @@ end
     Y = allTrainLabels;
 
     % Create a feedforward neural network
-    hiddenLayerSize = 2;
+    hiddenLayerSize = 4;
     net = feedforwardnet(hiddenLayerSize);
 
     % Train the network
@@ -111,10 +130,10 @@ end
     testingAccuracy = sum(testPredictions == allTestLabels) / length(allTestLabels) * 100;
 
     % Display results
-    disp(['User ', char(target_user), ' Training complete!']);
+    disp(['User ', num2str(target_user), ' Training complete!']);
     disp(['Training Accuracy: ', num2str(trainingAccuracy), '%']);
     disp(['Testing Accuracy: ', num2str(testingAccuracy), '%']);
-    disp('');
+    disp(' ');
     view(net);  % Visualize the network architecture
 
 end
