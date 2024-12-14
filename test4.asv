@@ -111,7 +111,7 @@ end
     testingAccuracy = sum(testPredictions == allTestLabels) / length(allTestLabels) * 100;
 
     % Display results
-    disp(['User ', num2str(target_user), ' Training complete!']);
+    disp(['User ', char(target_user), ' Training complete!']);
     disp(['Training Accuracy: ', num2str(trainingAccuracy), '%']);
     disp(['Testing Accuracy: ', num2str(testingAccuracy), '%']);
     disp('');
